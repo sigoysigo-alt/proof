@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Higgsfield Video Studio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Higgsfield Video Studio</h1>
+    <button id="keyBtn" class="chip" type="button">API key: …</button>
+  </header>
+
+  <dialog id="keyDialog">
+    <form id="keyForm" method="dialog">
+      <h2>API key de Higgsfield</h2>
+      <p class="muted">
+        Pega tus credenciales en formato <code>KEY_ID:KEY_SECRET</code>
+        (las obtienes en tu cuenta de Higgsfield → API).
+        Se guardan solo en el servidor local (<code>higgsfield-web/.env</code>), nunca en el navegador.
+      </p>
+      <input id="keyInput" type="password" autocomplete="off" placeholder="KEY_ID:KEY_SECRET" required>
+      <p id="keyError" class="error" hidden></p>
+      <div class="row end">
+        <button type="button" id="keyCancel" class="ghost">Cancelar</button>
+        <button type="submit" class="primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <main class="layout">
+    <section class="panel">
+      <label class="field">
+        <span>Modelo</span>
+        <select id="modelSelect"></select>
+      </label>
+      <p id="modelEndpoint" class="muted mono"></p>
+      <p id="modelNote" class="note" hidden></p>
+
+      <form id="genForm" novalidate>
+        <div id="fields"></div>
+
+        <div id="customFields" hidden>
+          <label class="field">
+            <span>Endpoint</span>
+            <input id="customEndpoint" class="mono" placeholder="/kling-video/v2.6/pro/image-to-video">
+          </label>
+          <label class="field">
+            <span>Input (JSON)</span>
+            <textarea id="customInput" class="mono" rows="10">{
+  "prompt": "",
+  "image_url": ""
+}</textarea>
+          </label>
+          <p class="muted">Úsalo para cualquier modelo del catálogo de Higgsfield que no aparezca en la lista
+            (Veo, Wan, MiniMax, Hailuo, Sora…). Copia el endpoint y los parámetros de docs.higgsfield.ai.</p>
+        </div>
+
+        <details id="advancedBox">
+          <summary>Ajustes avanzados (JSON)</summary>
+          <p class="muted">Campos extra que se fusionan con el formulario (p. ej. <code>{"seed": 42}</code>).</p>
+          <textarea id="advancedInput" class="mono" rows="4" placeholder="{}"></textarea>
+        </details>
+
+        <p id="formError" class="error" hidden></p>
+        <p id="estimate" class="muted" hidden></p>
+
+        <div class="row">
+          <button type="button" id="estimateBtn" class="ghost">Estimar coste</button>
+          <button type="button" id="previewBtn" class="ghost">Ver JSON</button>
+          <button type="submit" id="generateBtn" class="primary">Generar vídeo</button>
+        </div>
+        <pre id="preview" class="mono preview" hidden></pre>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="row between">
+        <h2>Generaciones</h2>
+        <button type="button" id="clearBtn" class="ghost small">Limpiar historial</button>
+      </div>
+      <p id="emptyJobs" class="muted">Todavía no hay vídeos. Elige un modelo y pulsa «Generar vídeo».</p>
+      <ul id="jobs" class="jobs"></ul>
+    </section>
+  </main>
+
+  <template id="jobTpl">
+    <li class="job">
+      <div class="row between">
+        <strong class="job-model"></strong>
+        <span class="badge"></span>
+      </div>
+      <p class="job-prompt muted"></p>
+      <div class="job-media"></div>
+      <div class="row job-actions">
+        <a class="job-download ghost small button" target="_blank" rel="noopener" hidden>Abrir / descargar</a>
+        <button type="button" class="job-cancel ghost small" hidden>Cancelar</button>
+        <button type="button" class="job-remove ghost small">Quitar</button>
+      </div>
+      <p class="job-error error" hidden></p>
+      <p class="job-meta muted mono"></p>
+    </li>
+  </template>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

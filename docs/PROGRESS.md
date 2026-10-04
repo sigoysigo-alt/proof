@@ -62,3 +62,18 @@ Fecha: 2026-09-07
   `docs/PRODUCT_SPEC.md`.
 - 2026-09-07: ITERACIÓN 1 del MVP — proyecto Expo, navegación y pantallas
   provisionales con datos DEMO.
+
+## Herramienta aparte: Higgsfield Video Studio (`higgsfield-web/`)
+
+Fecha: 2026-10-04
+
+- Web local independiente de la app PROOF (no forma parte del MVP) para
+  generar vídeos con la API de Higgsfield.
+- Servidor Node sin dependencias; credenciales solo server-side (`.env`).
+- Modelos: Seedance 2.5/2.0, Cinema Studio 4.0, Kling 3.0 (Std/Turbo),
+  Kling 2.6 Pro, DoP y endpoint personalizado.
+- Tests (`npm test` en `higgsfield-web/`) contra API simulada: 10/10 OK.
+- Pendiente: probar contra la API real con una key (el entorno de desarrollo
+  no tiene acceso de red a api.higgsfield.ai).
+- `eslint.config.js` ignora `higgsfield-web/**` para no mezclarla con el lint
+  de la app Expo.
